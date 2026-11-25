@@ -21,6 +21,7 @@ DROP TABLE IF EXISTS NhaCungCap CASCADE;
 DROP TABLE IF EXISTS NguyenVatLieu CASCADE;
 DROP TABLE IF EXISTS ThanhPham CASCADE;
 DROP TABLE IF EXISTS NguoiDung CASCADE;
+DROP SEQUENCE IF EXISTS seq_nvl;
 
 -- ============================================================================
 -- NHÓM 1: 4 BẢNG DANH MỤC GỐC (Khởi tạo đầu tiên)
@@ -54,6 +55,9 @@ CREATE TABLE NguyenVatLieu (
     DonGiaNhap  NUMERIC(15, 2) NOT NULL DEFAULT 0 CHECK (DonGiaNhap >= 0)
 );
 
+-- Sequence sinh mã tự động cho Nguyên vật liệu (NVL01, NVL02, ...)
+CREATE SEQUENCE IF NOT EXISTS seq_nvl START WITH 1;
+
 -- 4. Bảng Nhà Cung Cấp (Danh mục đối tác cung ứng NVL)
 CREATE TABLE NhaCungCap (
     MaNCC   VARCHAR(20)  PRIMARY KEY,
@@ -74,7 +78,7 @@ CREATE TABLE CongThuc_BOM (
     SLCanDung  NUMERIC(12, 3) NOT NULL CHECK (SLCanDung > 0),
     PRIMARY KEY (MaTP, MaNVL),
     CONSTRAINT fk_bom_thanhpham
-        FOREIGN KEY (MaTP) REFERENCES ThanhPham(MaTP) ON DELETE CASCADE,
+        FOREIGN KEY (MaTP) REFERENCES ThanhPham(MaTP) ON DELETE RESTRICT,
     CONSTRAINT fk_bom_nguyenvatlieu
         FOREIGN KEY (MaNVL) REFERENCES NguyenVatLieu(MaNVL) ON DELETE RESTRICT
 );

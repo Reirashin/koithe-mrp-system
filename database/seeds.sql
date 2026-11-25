@@ -20,9 +20,9 @@ INSERT INTO NguoiDung (MaND, TenDangNhap, MatKhauHash, HoTen, VaiTro, SDT) VALUE
 
 -- 2. Nạp danh mục Thành phẩm
 INSERT INTO ThanhPham (MaTP, TenTP, DVT, SLTon, GiaBan) VALUES
-('TP01', 'Trà sữa Hoàng Kim', 'Ly', 10, 45000.00),
-('TP02', 'Lục trà Macchiato', 'Ly', 15, 42000.00),
-('TP03', 'Hồng trà Chanh dây', 'Ly', 20, 40000.00);
+('TP01', 'Trà sữa Hoàng Kim', 'ly', 10, 45000.00),
+('TP02', 'Lục trà Macchiato', 'ly', 15, 42000.00),
+('TP03', 'Hồng trà Chanh dây', 'ly', 20, 40000.00);
 
 -- 3. Nạp danh mục Nguyên vật liệu
 INSERT INTO NguyenVatLieu (MaNVL, TenNVL, DVT, SLTon, DonGiaNhap) VALUES
@@ -32,6 +32,8 @@ INSERT INTO NguyenVatLieu (MaNVL, TenNVL, DVT, SLTon, DonGiaNhap) VALUES
 ('NVL04', 'Bộ ly + nắp + ống hút', 'bo', 500.000, 2500.00),
 ('NVL05', 'Lục trà lài', 'g', 4000.000, 350.00),
 ('NVL06', 'Kem sữa Macchiato', 'ml', 6000.000, 120.00);
+
+SELECT setval('seq_nvl', 6);
 
 -- 4. Nạp danh mục Nhà cung cấp
 INSERT INTO NhaCungCap (MaNCC, TenNCC, DiaChi, SDT, Email) VALUES

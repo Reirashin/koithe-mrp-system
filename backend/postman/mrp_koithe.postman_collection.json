@@ -1,0 +1,201 @@
+{
+  "info": {
+    "name": "MRP Koi Thé - Backend API",
+    "description": "Bộ API hệ thống Quản lý Kho & Sản xuất (MRP) - Chi nhánh KOI Thé. Được cập nhật đồng bộ theo từng bước triển khai.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Nguyên vật liệu (NguyenVatLieu)",
+      "description": "Phase 3 - Bước 2: CRUD danh mục nguyên vật liệu (/api/nguyen-vat-lieu)",
+      "item": [
+        {
+          "name": "Lấy danh sách nguyên vật liệu",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/nguyen-vat-lieu",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "nguyen-vat-lieu"
+              ],
+              "query": [
+                {
+                  "key": "tuKhoa",
+                  "value": "trà",
+                  "description": "Tùy chọn lọc theo mã hoặc tên NVL",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Trả về toàn bộ danh sách nguyên vật liệu kèm tồn kho hiện tại (slTon)."
+          },
+          "response": []
+        },
+        {
+          "name": "Tìm kiếm nguyên vật liệu theo từ khóa",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/nguyen-vat-lieu?tuKhoa=trà",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "nguyen-vat-lieu"
+              ],
+              "query": [
+                {
+                  "key": "tuKhoa",
+                  "value": "trà"
+                }
+              ]
+            },
+            "description": "Lọc nguyên vật liệu theo mã hoặc tên (không phân biệt hoa-thường)."
+          },
+          "response": []
+        },
+        {
+          "name": "Xem chi tiết nguyên vật liệu",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/nguyen-vat-lieu/NVL01",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "nguyen-vat-lieu",
+                "NVL01"
+              ]
+            },
+            "description": "Lấy chi tiết 1 nguyên vật liệu theo maNVL (trả 404 nếu không tồn tại)."
+          },
+          "response": []
+        },
+        {
+          "name": "Tạo mới nguyên vật liệu",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenNVL\": \"Siro chanh dây\",\n  \"dvt\": \"ML\",\n  \"donGiaNhap\": 150.00\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/nguyen-vat-lieu",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "nguyen-vat-lieu"
+              ]
+            },
+            "description": "Tự động sinh mã từ seq_nvl (VD: NVL07), chuẩn hóa dvt chữ thường (\"ml\"), slTon mặc định bằng 0. Trả 409 nếu trùng tên, 400 nếu sai validation."
+          },
+          "response": []
+        },
+        {
+          "name": "Cập nhật nguyên vật liệu",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tenNVL\": \"Siro chanh dây đậm đặc\",\n  \"dvt\": \"ml\",\n  \"donGiaNhap\": 165.00\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/nguyen-vat-lieu/NVL07",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "nguyen-vat-lieu",
+                "NVL07"
+              ]
+            },
+            "description": "Cập nhật tên, dvt, donGiaNhap. Khóa hoàn toàn slTon và maNVL."
+          },
+          "response": []
+        },
+        {
+          "name": "Xóa nguyên vật liệu (Test chặn 409 - đang có BOM/Phiếu)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/nguyen-vat-lieu/NVL01",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "nguyen-vat-lieu",
+                "NVL01"
+              ]
+            },
+            "description": "NVL01 đang gắn với CongThuc_BOM và CT_PhieuNhapKhoNVL nên sẽ bị PostgreSQL ON DELETE RESTRICT chặn và trả 409 Conflict."
+          },
+          "response": []
+        },
+        {
+          "name": "Xóa nguyên vật liệu (Test xóa thành công 200)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/nguyen-vat-lieu/NVL07",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "nguyen-vat-lieu",
+                "NVL07"
+              ]
+            },
+            "description": "Xóa NVL07 mới tạo chưa phát sinh liên kết ở BOM hoặc chứng từ kho."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
